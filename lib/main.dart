@@ -135,6 +135,7 @@ class _TelaInicialState extends State<TelaInicial> {
         elevation: 0,
       ),
       body: Container(
+        width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -266,6 +267,7 @@ class TelaSelecaoTema extends StatelessWidget {
         elevation: 0,
       ),
       body: Container(
+        width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -428,6 +430,7 @@ class _TelaCartasState extends State<TelaCartas> {
         elevation: 0,
       ),
       body: Container(
+        width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -629,6 +632,7 @@ class _TelaDebateState extends State<TelaDebate> {
         elevation: 0,
       ),
       body: Container(
+        width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -862,6 +866,7 @@ class TelaResultado extends StatelessWidget {
         elevation: 0,
       ),
       body: Container(
+        width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
