@@ -22,6 +22,67 @@ class JogoImpostorApp extends StatelessWidget {
   }
 }
 
+// ==================== CLASSE TEMA ====================
+class Tema {
+  final String nome;
+  final List<String> itens;
+  final IconData icone;
+  final Color cor;
+
+  Tema({
+    required this.nome,
+    required this.itens,
+    required this.icone,
+    required this.cor,
+  });
+}
+
+// ==================== TEMAS DISPONÍVEIS ====================
+final List<Tema> temasDisponiveis = [
+  Tema(
+    nome: 'Objetos Comuns',
+    itens: [
+      'Relógio', 'Cadeira', 'Lanterna', 'Espelho', 'Livro',
+      'Telefone', 'Caneta', 'Mochila', 'Óculos', 'Chave',
+      'Moeda', 'Copo', 'Prato', 'Garfo', 'Colher',
+      'Faca', 'Pente', 'Escova de dentes', 'Sabonete', 'Toalha',
+    ],
+    icone: Icons.home_rounded,
+    cor: Colors.blue,
+  ),
+  Tema(
+    nome: 'Clash Royale',
+    itens: [
+      'Aríete de Batalha', 'Bandida', 'Barril de Goblins', 'Bárbaros de Elite',
+      'Bebê Dragão', 'Bola de Fogo', 'Bruxa', 'Bruxa Sombria',
+      'Caçador', 'Cavaleiro', 'Cemitério', 'Corredor',
+      'Domadora de Carneiro', 'Dragão Infernal', 'Esqueleto Gigante',
+      'Exército de Esqueletos', 'Executor', 'Fantasma Real', 'Flechas',
+      'Foguete', 'Fúria', 'Gangue de Goblins', 'Gigante',
+      'Gigante Elétrico', 'Gigante Real', 'Golem', 'Golem de elixir',
+      'Horda de Servos', 'Lançador', 'Lápide', 'Lava Hound',
+      'Mago de fogo', 'Mago de gelo', 'Mago Elétrico', 'Megacavaleiro',
+      'Mineiro', 'Mini P.E.K.K.A', 'Morteiro', 'P.E.K.K.A',
+      'Pescador', 'Príncipe', 'Príncipe das Trevas', 'Relâmpago',
+      'Sparky', 'Terremoto', 'Tesla', 'Tornado', 'Torre de Bombas',
+      'Torre Infernal', 'Tronco', 'Veneno', 'X-Besta',
+    ],
+    icone: Icons.castle_rounded,
+    cor: Colors.orange,
+  ),
+  Tema(
+    nome: 'Alimentos',
+    itens: [
+      'Maçã', 'Banana', 'Pizza', 'Hambúrguer', 'Sushi',
+      'Arroz', 'Feijão', 'Macarrão', 'Salada', 'Chocolate',
+      'Queijo', 'Pão', 'Ovo', 'Melancia', 'Morango',
+      'Frango', 'Peixe', 'Bife', 'Sopa', 'Sanduíche',
+    ],
+    icone: Icons.restaurant_rounded,
+    cor: Colors.red,
+  ),
+];
+
 // ==================== TELA INICIAL ====================
 class TelaInicial extends StatefulWidget {
   const TelaInicial({Key? key}) : super(key: key);
@@ -60,7 +121,7 @@ class _TelaInicialState extends State<TelaInicial> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => TelaCartas(jogadores: _jogadores),
+        builder: (context) => TelaSelecaoTema(jogadores: _jogadores),
       ),
     );
   }
@@ -190,18 +251,115 @@ class _TelaInicialState extends State<TelaInicial> {
   }
 }
 
+// ==================== TELA DE SELEÇÃO DE TEMA ====================
+class TelaSelecaoTema extends StatelessWidget {
+  final List<String> jogadores;
+
+  const TelaSelecaoTema({Key? key, required this.jogadores}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Escolha o Tema'),
+        centerTitle: true,
+        elevation: 0,
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Colors.deepPurple.shade900, Colors.deepPurple.shade600],
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              const Text(
+                'Sobre o que será o jogo?',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: temasDisponiveis.length,
+                  itemBuilder: (context, index) {
+                    final tema = temasDisponiveis[index];
+                    return Card(
+                      elevation: 4,
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 10,
+                        ),
+                        leading: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: tema.cor.withOpacity(0.2),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(tema.icone, color: tema.cor, size: 30),
+                        ),
+                        title: Text(
+                          tema.nome,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        subtitle: Text(
+                          '${tema.itens.length} palavras disponíveis',
+                          style: TextStyle(color: Colors.grey.shade600),
+                        ),
+                        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TelaCartas(
+                                jogadores: jogadores,
+                                tema: tema,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 // ==================== TELA DE CARTAS ====================
 class TelaCartas extends StatefulWidget {
   final List<String> jogadores;
+  final Tema tema;
 
-  const TelaCartas({Key? key, required this.jogadores}) : super(key: key);
+  const TelaCartas({Key? key, required this.jogadores, required this.tema})
+      : super(key: key);
 
   @override
   State<TelaCartas> createState() => _TelaCartasState();
 }
 
 class _TelaCartasState extends State<TelaCartas> {
-  late List<String> _objetos;
   late int _impostorIndex;
   late int _jogadorAtual;
   late Map<int, String> _revelacoesJogadores;
@@ -214,32 +372,9 @@ class _TelaCartasState extends State<TelaCartas> {
   }
 
   void _inicializarJogo() {
-    // Lista de objetos comuns
-    const objetos = [
-      'Relógio',
-      'Cadeira',
-      'Lanterna',
-      'Espelho',
-      'Livro',
-      'Telefone',
-      'Caneta',
-      'Mochila',
-      'Óculos',
-      'Chave',
-      'Moeda',
-      'Copo',
-      'Prato',
-      'Garfo',
-      'Colher',
-      'Faca',
-      'Pente',
-      'Escova de dentes',
-      'Sabonete',
-      'Toalha',
-    ];
-
-    // Selecionar objeto aleatório
-    final objetoSelecionado = objetos[Random().nextInt(objetos.length)];
+    // Selecionar objeto aleatório do tema escolhido
+    final objetoSelecionado =
+        widget.tema.itens[Random().nextInt(widget.tema.itens.length)];
 
     // Selecionar impostor aleatório
     _impostorIndex = Random().nextInt(widget.jogadores.length);
